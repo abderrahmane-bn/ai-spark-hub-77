@@ -1,11 +1,10 @@
 import { Workshop } from "@/data/types";
-import { Calendar, MapPin, Users, Clock, Monitor, Download, Tag } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { Calendar, MapPin, Users, Clock, Monitor, Download, Tag, ArrowUpRight } from "lucide-react";
 
 const typeColors: Record<string, string> = {
-  workshop: "bg-primary/10 text-primary border-primary/20",
-  seminar: "bg-accent/10 text-accent border-accent/20",
-  competition: "bg-warning/10 text-warning border-warning/20",
+  workshop: "bg-primary/10 text-primary",
+  seminar: "bg-accent/10 text-accent",
+  competition: "bg-warning/10 text-warning",
 };
 
 const audienceLabels: Record<string, string> = {
@@ -19,92 +18,89 @@ const WorkshopCard = ({ workshop }: { workshop: Workshop }) => {
   const fillPercent = Math.round((workshop.enrolled / workshop.maxParticipants) * 100);
 
   return (
-    <div className="group relative rounded-xl border border-border bg-card p-5 transition-all hover:shadow-glow hover:border-primary/30">
-      {/* Status indicator */}
-      <div className="absolute top-4 right-4">
-        <span
-          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
-            isPast
-              ? "bg-muted text-muted-foreground"
-              : "bg-success/10 text-success"
-          }`}
-        >
-          {isPast ? "Completed" : "Upcoming"}
-        </span>
-      </div>
+    <div className="group relative rounded-2xl border border-border/60 bg-card overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:border-primary/20 hover:-translate-y-0.5">
+      {/* Subtle top gradient accent */}
+      <div className="h-1 w-full gradient-primary opacity-60 group-hover:opacity-100 transition-opacity" />
 
-      {/* Type badge */}
-      <div className="flex items-center gap-2 mb-3">
-        <span className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium capitalize ${typeColors[workshop.type]}`}>
-          {workshop.type}
-        </span>
-        <span className="flex items-center gap-1 text-xs text-muted-foreground">
-          <Tag className="h-3 w-3" />
-          {workshop.topic}
-        </span>
-      </div>
+      <div className="p-5">
+        {/* Header row */}
+        <div className="flex items-start justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span className={`inline-flex items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide ${typeColors[workshop.type]}`}>
+              {workshop.type}
+            </span>
+            <span className="flex items-center gap-1 text-[11px] text-muted-foreground font-medium">
+              <Tag className="h-3 w-3" />
+              {workshop.topic}
+            </span>
+          </div>
+          <span
+            className={`inline-flex items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold ${
+              isPast
+                ? "bg-muted text-muted-foreground"
+                : "bg-success/10 text-success"
+            }`}
+          >
+            {isPast ? "Completed" : "Upcoming"}
+          </span>
+        </div>
 
-      {/* Title */}
-      <h3 className="font-display text-lg font-semibold text-foreground mb-2 pr-20 leading-tight">
-        {workshop.title}
-      </h3>
+        {/* Title */}
+        <h3 className="font-display text-base font-semibold text-foreground mb-1.5 leading-snug group-hover:text-primary transition-colors">
+          {workshop.title}
+        </h3>
 
-      <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
-        {workshop.description}
-      </p>
+        <p className="text-sm text-muted-foreground mb-4 line-clamp-2 leading-relaxed">
+          {workshop.description}
+        </p>
 
-      {/* Meta info */}
-      <div className="grid grid-cols-2 gap-2 text-xs text-muted-foreground mb-4">
-        <span className="flex items-center gap-1.5">
-          <Calendar className="h-3.5 w-3.5 text-primary" />
-          {new Date(workshop.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-        </span>
-        <span className="flex items-center gap-1.5">
-          <Clock className="h-3.5 w-3.5 text-primary" />
-          {workshop.time}
-        </span>
-        <span className="flex items-center gap-1.5">
-          {workshop.location === "webinar" ? (
-            <Monitor className="h-3.5 w-3.5 text-accent" />
-          ) : (
-            <MapPin className="h-3.5 w-3.5 text-accent" />
+        {/* Meta grid */}
+        <div className="grid grid-cols-2 gap-2.5 mb-4">
+          {[
+            { icon: Calendar, text: new Date(workshop.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }), color: "text-primary" },
+            { icon: Clock, text: workshop.time, color: "text-primary" },
+            { icon: workshop.location === "webinar" ? Monitor : MapPin, text: workshop.location === "webinar" ? "Online Webinar" : workshop.venue, color: "text-accent" },
+            { icon: Users, text: audienceLabels[workshop.targetAudience], color: "text-muted-foreground" },
+          ].map((meta, i) => (
+            <span key={i} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <meta.icon className={`h-3.5 w-3.5 ${meta.color} shrink-0`} />
+              <span className="truncate">{meta.text}</span>
+            </span>
+          ))}
+        </div>
+
+        {/* Enrollment */}
+        <div className="mb-4">
+          <div className="flex justify-between text-xs mb-1.5">
+            <span className="text-muted-foreground font-medium">Enrollment</span>
+            <span className="font-semibold text-foreground">{workshop.enrolled}/{workshop.maxParticipants}</span>
+          </div>
+          <div className="h-2 rounded-full bg-muted overflow-hidden">
+            <div
+              className="h-full rounded-full gradient-primary transition-all duration-500"
+              style={{ width: `${fillPercent}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-between pt-3 border-t border-border/60">
+          <span className="text-xs text-muted-foreground">
+            by <span className="font-medium text-foreground">{workshop.instructor}</span>
+          </span>
+          {isPast && workshop.resourceUrl && (
+            <button className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary/80 transition-colors">
+              <Download className="h-3.5 w-3.5" />
+              Resources
+            </button>
           )}
-          {workshop.location === "webinar" ? "Online Webinar" : workshop.venue}
-        </span>
-        <span className="flex items-center gap-1.5">
-          <Users className="h-3.5 w-3.5 text-primary" />
-          {audienceLabels[workshop.targetAudience]}
-        </span>
-      </div>
-
-      {/* Enrollment bar */}
-      <div className="mb-3">
-        <div className="flex justify-between text-xs mb-1">
-          <span className="text-muted-foreground">Enrolled</span>
-          <span className="font-medium text-foreground">{workshop.enrolled}/{workshop.maxParticipants}</span>
+          {!isPast && (
+            <button className="flex items-center gap-1 rounded-lg gradient-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-glow transition-all hover:scale-105">
+              Register
+              <ArrowUpRight className="h-3 w-3" />
+            </button>
+          )}
         </div>
-        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
-          <div
-            className="h-full rounded-full gradient-primary transition-all"
-            style={{ width: `${fillPercent}%` }}
-          />
-        </div>
-      </div>
-
-      {/* Footer */}
-      <div className="flex items-center justify-between pt-2 border-t border-border">
-        <span className="text-xs text-muted-foreground">by {workshop.instructor}</span>
-        {isPast && workshop.resourceUrl && (
-          <button className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors">
-            <Download className="h-3.5 w-3.5" />
-            Resources
-          </button>
-        )}
-        {!isPast && (
-          <button className="text-xs font-medium text-primary hover:text-primary/80 transition-colors">
-            Register →
-          </button>
-        )}
       </div>
     </div>
   );
