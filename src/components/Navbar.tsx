@@ -14,6 +14,8 @@ const navItems = [
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -22,6 +24,13 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
+  const roleLabel = user?.role === "admin" ? "Admin" : user?.role === "representative" ? "Representative" : "Student";
 
   return (
     <nav
@@ -67,6 +76,45 @@ const Navbar = () => {
           })}
         </div>
 
+        {/* Desktop auth */}
+        <div className="hidden md:flex items-center gap-2">
+          {user ? (
+            <>
+              <Link
+                to="/dashboard"
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-foreground hover:bg-muted transition"
+              >
+                <LayoutDashboard className="h-4 w-4" />
+                <span className="hidden lg:inline">Dashboard</span>
+              </Link>
+              <div className="flex items-center gap-2 rounded-xl border border-border/60 bg-card px-2.5 py-1.5">
+                <div className="h-7 w-7 rounded-lg gradient-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
+                  {user.fullName.charAt(0)}
+                </div>
+                <div className="hidden lg:block leading-tight">
+                  <div className="text-xs font-semibold">{user.fullName.split(" ")[0]}</div>
+                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{roleLabel}</div>
+                </div>
+              </div>
+              <Button variant="ghost" size="icon" onClick={handleLogout} title="Sign out">
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/login">
+                  <LogIn className="h-4 w-4" />
+                  Sign in
+                </Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link to="/signup">Sign up</Link>
+              </Button>
+            </>
+          )}
+        </div>
+
         {/* Mobile toggle */}
         <button
           className="md:hidden p-2 rounded-xl hover:bg-muted transition-colors"
@@ -97,6 +145,48 @@ const Navbar = () => {
               </Link>
             );
           })}
+          <div className="border-t border-border/50 mt-2 pt-2 space-y-0.5">
+            {user ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium text-foreground hover:bg-muted"
+                >
+                  <LayoutDashboard className="h-4 w-4" />
+                  Dashboard ({roleLabel})
+                </Link>
+                <button
+                  onClick={() => {
+                    handleLogout();
+                    setMobileOpen(false);
+                  }}
+                  className="w-full flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-muted"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium hover:bg-muted"
+                >
+                  <LogIn className="h-4 w-4" />
+                  Sign in
+                </Link>
+                <Link
+                  to="/signup"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium text-primary hover:bg-primary/10"
+                >
+                  Sign up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       )}
     </nav>
