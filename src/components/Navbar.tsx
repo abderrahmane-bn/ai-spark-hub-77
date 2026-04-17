@@ -1,6 +1,8 @@
-import { Link, useLocation } from "react-router-dom";
-import { Brain, Calendar, Users, BookOpen, Handshake, Menu, X } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Brain, Calendar, Users, BookOpen, Handshake, Menu, X, LayoutDashboard, LogOut, LogIn } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useAuth } from "@/lib/auth";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { to: "/", label: "Home", icon: Brain },

@@ -83,7 +83,7 @@ const StudentDashboard = () => {
       >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {featuredReps.map((r) => (
-            <RepresentativeCard key={r.id} representative={r} />
+            <RepresentativeCard key={r.id} rep={r} />
           ))}
         </div>
       </Section>
