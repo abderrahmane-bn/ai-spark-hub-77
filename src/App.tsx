@@ -7,8 +7,10 @@ import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/lib/auth";
 import Index from "./pages/Index.tsx";
 import WorkshopsPage from "./pages/WorkshopsPage.tsx";
+import SessionDetailsPage from "./pages/SessionDetailsPage.tsx";
 import RepresentativesPage from "./pages/RepresentativesPage.tsx";
 import ResourcesPage from "./pages/ResourcesPage.tsx";
+import ResourceDetailsPage from "./pages/ResourceDetailsPage.tsx";
 import PartnersPage from "./pages/PartnersPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
@@ -28,8 +30,10 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/workshops" element={<WorkshopsPage />} />
+            <Route path="/sessions/:id" element={<SessionDetailsPage />} />
             <Route path="/representatives" element={<RepresentativesPage />} />
             <Route path="/resources" element={<ResourcesPage />} />
+            <Route path="/resources/:id" element={<ResourceDetailsPage />} />
             <Route path="/partners" element={<PartnersPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />

@@ -1,5 +1,6 @@
 import { Workshop } from "@/data/types";
 import { Calendar, MapPin, Users, Clock, Monitor, Download, Tag, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const typeColors: Record<string, string> = {
   workshop: "bg-primary/10 text-primary",
@@ -18,7 +19,10 @@ const WorkshopCard = ({ workshop }: { workshop: Workshop }) => {
   const fillPercent = Math.round((workshop.enrolled / workshop.maxParticipants) * 100);
 
   return (
-    <div className="group relative rounded-2xl border border-border/60 bg-card overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:border-primary/20 hover:-translate-y-0.5">
+    <Link
+      to={`/sessions/${workshop.id}`}
+      className="group relative block rounded-2xl border border-border/60 bg-card overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:border-primary/20 hover:-translate-y-0.5"
+    >
       {/* Subtle top gradient accent */}
       <div className="h-1 w-full gradient-primary opacity-60 group-hover:opacity-100 transition-opacity" />
 
@@ -88,21 +92,21 @@ const WorkshopCard = ({ workshop }: { workshop: Workshop }) => {
           <span className="text-xs text-muted-foreground">
             by <span className="font-medium text-foreground">{workshop.instructor}</span>
           </span>
-          {isPast && workshop.resourceUrl && (
-            <button className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary/80 transition-colors">
+          {isPast && (workshop.resources?.length || workshop.resourceUrl) && (
+            <span className="flex items-center gap-1.5 text-xs font-semibold text-primary group-hover:text-primary/80 transition-colors">
               <Download className="h-3.5 w-3.5" />
               Resources
-            </button>
+            </span>
           )}
           {!isPast && (
-            <button className="flex items-center gap-1 rounded-lg gradient-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-glow transition-all hover:scale-105">
-              Register
+            <span className="flex items-center gap-1 rounded-lg gradient-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground shadow-glow transition-all group-hover:scale-105">
+              View details
               <ArrowUpRight className="h-3 w-3" />
-            </button>
+            </span>
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
