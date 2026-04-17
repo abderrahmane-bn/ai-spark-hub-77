@@ -3,6 +3,15 @@ export type WorkshopType = "workshop" | "seminar" | "competition";
 export type AudienceType = "representatives" | "students" | "public";
 export type LocationType = "physical" | "webinar";
 
+export interface ResourceItem {
+  id: string;
+  title: string;
+  type: "pdf" | "slides" | "video" | "code" | "dataset";
+  url: string;
+  size?: string;
+  description?: string;
+}
+
 export interface Workshop {
   id: string;
   title: string;
@@ -17,7 +26,11 @@ export interface Workshop {
   department: string;
   topic: string;
   resourceUrl?: string;
+  resources?: ResourceItem[];
+  agenda?: { time: string; item: string }[];
+  prerequisites?: string[];
   instructor: string;
+  instructorId?: string;
   maxParticipants: number;
   enrolled: number;
 }
