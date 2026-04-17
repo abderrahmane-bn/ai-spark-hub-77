@@ -1,4 +1,4 @@
-import { Workshop, Representative, Department, Partner } from "./types";
+import { Workshop, Representative, Department, Partner, ResourceItem } from "./types";
 
 export const departments: Department[] = [
   { id: "1", name: "Computer Science", workshopCount: 12, representativeCount: 3, participantCount: 145 },
@@ -11,6 +11,19 @@ export const departments: Department[] = [
   { id: "8", name: "Medicine", workshopCount: 2, representativeCount: 1, participantCount: 29 },
   { id: "9", name: "Architecture", workshopCount: 3, representativeCount: 1, participantCount: 37 },
   { id: "10", name: "Economics", workshopCount: 4, representativeCount: 1, participantCount: 52 },
+];
+
+const defaultAgenda = [
+  { time: "00:00", item: "Welcome & introductions" },
+  { time: "00:15", item: "Core concepts walkthrough" },
+  { time: "01:00", item: "Hands-on lab session" },
+  { time: "02:00", item: "Q&A and wrap-up" },
+];
+
+const baseResources = (slug: string): ResourceItem[] => [
+  { id: `${slug}-1`, title: "Slide deck (PDF)", type: "slides", url: `/resources/${slug}-slides.pdf`, size: "4.2 MB", description: "Full presentation used during the session." },
+  { id: `${slug}-2`, title: "Hands-on notebook", type: "code", url: `/resources/${slug}-notebook.ipynb`, size: "120 KB", description: "Jupyter notebook with all examples." },
+  { id: `${slug}-3`, title: "Recording", type: "video", url: `/resources/${slug}-recording.mp4`, size: "320 MB", description: "Full video recording of the session." },
 ];
 
 export const workshops: Workshop[] = [
@@ -28,8 +41,11 @@ export const workshops: Workshop[] = [
     department: "Biology",
     topic: "Python for Research",
     instructor: "Dr. Amina Belhadi",
+    instructorId: "2",
     maxParticipants: 30,
     enrolled: 22,
+    agenda: defaultAgenda,
+    prerequisites: ["Basic computer literacy", "Laptop with Python 3.10+ installed"],
   },
   {
     id: "2",
@@ -45,8 +61,11 @@ export const workshops: Workshop[] = [
     department: "Computer Science",
     topic: "Data Science",
     instructor: "Prof. Karim Meziane",
+    instructorId: "1",
     maxParticipants: 50,
     enrolled: 47,
+    agenda: defaultAgenda,
+    prerequisites: ["Familiarity with Python", "Basic statistics"],
   },
   {
     id: "3",
@@ -61,8 +80,10 @@ export const workshops: Workshop[] = [
     department: "Civil Engineering",
     topic: "Automation",
     instructor: "Dr. Farid Boudiaf",
+    instructorId: "4",
     maxParticipants: 100,
     enrolled: 63,
+    agenda: defaultAgenda,
   },
   {
     id: "4",
@@ -78,9 +99,12 @@ export const workshops: Workshop[] = [
     department: "Computer Science",
     topic: "AI Pedagogy",
     resourceUrl: "/resources/train-the-trainer.pdf",
+    resources: baseResources("train-the-trainer"),
     instructor: "Prof. Karim Meziane",
+    instructorId: "1",
     maxParticipants: 25,
     enrolled: 25,
+    agenda: defaultAgenda,
   },
   {
     id: "5",
@@ -96,9 +120,12 @@ export const workshops: Workshop[] = [
     department: "Mathematics",
     topic: "Data Science",
     resourceUrl: "/resources/data-viz.pdf",
+    resources: baseResources("data-viz"),
     instructor: "Dr. Leila Hamidi",
+    instructorId: "3",
     maxParticipants: 35,
     enrolled: 35,
+    agenda: defaultAgenda,
   },
   {
     id: "6",
@@ -113,8 +140,10 @@ export const workshops: Workshop[] = [
     department: "Computer Science",
     topic: "Data Science",
     instructor: "Dr. Samira Khelifi",
+    instructorId: "6",
     maxParticipants: 80,
     enrolled: 31,
+    agenda: defaultAgenda,
   },
   {
     id: "7",
@@ -130,8 +159,11 @@ export const workshops: Workshop[] = [
     department: "Electrical Engineering",
     topic: "Automation",
     instructor: "Prof. Yacine Belkacem",
+    instructorId: "5",
     maxParticipants: 60,
     enrolled: 44,
+    agenda: defaultAgenda,
+    prerequisites: ["Team of 2-4", "Bring your own laptop"],
   },
   {
     id: "8",
@@ -147,9 +179,12 @@ export const workshops: Workshop[] = [
     department: "Chemistry",
     topic: "Automation",
     resourceUrl: "/resources/lab-automation.pdf",
+    resources: baseResources("lab-automation"),
     instructor: "Dr. Nadia Cherifi",
+    instructorId: "7",
     maxParticipants: 20,
     enrolled: 18,
+    agenda: defaultAgenda,
   },
 ];
 
