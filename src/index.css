@@ -53,6 +53,53 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217 91% 60%;
   }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 222 30% 17%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 222 30% 17%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 172 66% 50%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 30% 20%;
+    --input: 222 30% 20%;
+    --ring: 217 91% 60%;
+
+    --navy: 222 47% 11%;
+    --navy-foreground: 210 40% 98%;
+    --cyan-glow: 190 95% 55%;
+    --success: 160 84% 39%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --sidebar-background: 222 47% 9%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 222 30% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 30% 20%;
+    --sidebar-ring: 217 91% 60%;
+  }
 }
 
 @layer base {
@@ -93,7 +140,7 @@
     box-shadow: 0 10px 40px -10px hsl(217 91% 60% / 0.15), 0 4px 6px -2px hsl(222 47% 11% / 0.05);
   }
   .glass {
-    background: hsl(0 0% 100% / 0.7);
+    background: hsl(var(--card) / 0.7);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
   }
