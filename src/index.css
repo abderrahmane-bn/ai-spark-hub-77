@@ -140,7 +140,7 @@
     box-shadow: 0 10px 40px -10px hsl(217 91% 60% / 0.15), 0 4px 6px -2px hsl(222 47% 11% / 0.05);
   }
   .glass {
-    background: hsl(0 0% 100% / 0.7);
+    background: hsl(var(--card) / 0.7);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
   }
