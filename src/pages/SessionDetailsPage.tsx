@@ -72,7 +72,12 @@ const SessionDetailsPage = () => {
   const fillPercent = Math.round((workshop.enrolled / workshop.maxParticipants) * 100);
   const enrolled = user?.enrolledWorkshopIds.includes(workshop.id) ?? false;
   const rep = workshop.instructorId ? representatives.find((r) => r.id === workshop.instructorId) : undefined;
-  const hasResources = (workshop.resources?.length ?? 0) > 0 || !!workshop.resourceUrl;
+  const sessionResources: ResourceItem[] =
+    workshop.resources ??
+    (workshop.resourceUrl
+      ? [{ id: `${workshop.id}-legacy`, title: "Session materials", type: "pdf", url: workshop.resourceUrl, size: "—" }]
+      : []);
+  const hasResources = sessionResources.length > 0;
 
   const handleRegister = () => {
     if (!user) {
