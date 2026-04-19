@@ -214,14 +214,14 @@ const SessionDetailsPage = () => {
             </div>
           )}
 
-          {/* Resources preview */}
-          {hasResources && (
-            <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-card">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <Download className="h-5 w-5 text-success" />
-                  <h2 className="font-display text-lg font-semibold text-foreground">Session Resources</h2>
-                </div>
+          {/* Resources from the representative */}
+          <div className="rounded-2xl border border-border/60 bg-card p-6 shadow-card">
+            <div className="flex items-center justify-between mb-1">
+              <div className="flex items-center gap-2">
+                <Download className="h-5 w-5 text-success" />
+                <h2 className="font-display text-lg font-semibold text-foreground">Resources from the representative</h2>
+              </div>
+              {hasResources && (
                 <Link
                   to={`/resources/${workshop.id}`}
                   className="flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary/80"
@@ -229,29 +229,60 @@ const SessionDetailsPage = () => {
                   View all
                   <ArrowUpRight className="h-3 w-3" />
                 </Link>
-              </div>
+              )}
+            </div>
+            <p className="text-xs text-muted-foreground mb-4">
+              Materials shared by {workshop.instructor} for this session.
+            </p>
+
+            {hasResources ? (
               <div className="grid sm:grid-cols-2 gap-3">
-                {(workshop.resources ?? []).slice(0, 4).map((r) => {
+                {sessionResources.map((r) => {
                   const Icon = resourceIcon(r.type);
                   return (
-                    <Link
+                    <div
                       key={r.id}
-                      to={`/resources/${workshop.id}`}
-                      className="flex items-center gap-3 rounded-xl border border-border/60 p-3 hover:border-primary/40 hover:bg-muted/50 transition-all"
+                      className="group rounded-xl border border-border/60 p-3 hover:border-primary/40 hover:bg-muted/40 transition-all"
                     >
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 shrink-0">
-                        <Icon className="h-4 w-4 text-primary" />
+                      <div className="flex items-start gap-3">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 shrink-0">
+                          <Icon className="h-4 w-4 text-primary" />
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <span className="inline-flex items-center rounded-md bg-muted px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">
+                              {r.type}
+                            </span>
+                            {r.size && <span className="text-[10px] text-muted-foreground">{r.size}</span>}
+                          </div>
+                          <div className="text-sm font-medium text-foreground leading-snug">{r.title}</div>
+                          {r.description && (
+                            <div className="text-[11px] text-muted-foreground mt-1 leading-relaxed line-clamp-2">{r.description}</div>
+                          )}
+                        </div>
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="text-sm font-medium text-foreground truncate">{r.title}</div>
-                        <div className="text-[11px] text-muted-foreground">{r.size}</div>
-                      </div>
-                    </Link>
+                      <a
+                        href={r.url}
+                        download
+                        className="mt-3 w-full inline-flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary hover:text-primary-foreground text-primary px-3 py-1.5 text-[11px] font-semibold transition-all"
+                      >
+                        <Download className="h-3 w-3" />
+                        Download
+                      </a>
+                    </div>
                   );
                 })}
               </div>
-            </div>
-          )}
+            ) : (
+              <div className="rounded-xl border border-dashed border-border/60 p-6 text-center">
+                <p className="text-sm text-muted-foreground">
+                  {isPast
+                    ? "No materials have been uploaded for this session yet."
+                    : "Resources will be uploaded by the representative after the session."}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Side column */}
