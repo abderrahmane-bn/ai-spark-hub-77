@@ -3,6 +3,7 @@ import { Brain, Calendar, Users, BookOpen, Handshake, Menu, X, LayoutDashboard, 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const navItems = [
   { to: "/", label: "Home", icon: Brain },
@@ -78,6 +79,7 @@ const Navbar = () => {
 
         {/* Desktop auth */}
         <div className="hidden md:flex items-center gap-2">
+          <ThemeToggle />
           {user ? (
             <>
               <Link
@@ -116,12 +118,15 @@ const Navbar = () => {
         </div>
 
         {/* Mobile toggle */}
-        <button
-          className="md:hidden p-2 rounded-xl hover:bg-muted transition-colors"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        <div className="md:hidden flex items-center gap-1">
+          <ThemeToggle />
+          <button
+            className="p-2 rounded-xl hover:bg-muted transition-colors"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
