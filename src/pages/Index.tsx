@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero */}
-      <section className="container pt-12 md:pt-20 pb-16 md:pb-24">
+      <section id="about" className="container pt-12 md:pt-20 pb-16 md:pb-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1.5 text-[11px] font-semibold tracking-wider uppercase text-primary mb-7">
@@ -82,7 +82,7 @@ const Index = () => {
       </section>
 
       {/* Stats band */}
-      <section className="bg-muted/40 border-y border-border/60">
+      <section id="research" className="bg-muted/40 border-y border-border/60">
         <div className="container py-14">
           <div className="grid md:grid-cols-3 gap-5">
             {[
@@ -120,7 +120,7 @@ const Index = () => {
       </section>
 
       {/* Upcoming workshops */}
-      <section className="container py-16 md:py-20">
+      <section id="events" className="container py-16 md:py-20">
         <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
           <div>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2">
@@ -230,7 +230,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/60 bg-muted/30">
+      <footer id="directory" className="border-t border-border/60 bg-muted/30">
         <div className="container py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="font-display font-bold text-foreground">AI House</div>

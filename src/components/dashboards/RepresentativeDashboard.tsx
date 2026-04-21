@@ -3,7 +3,8 @@ import { workshops } from "@/data/mockData";
 import WorkshopCard from "@/components/WorkshopCard";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, Calendar, GraduationCap, Sparkles, Users } from "lucide-react";
+import { BadgeCheck, Calendar, GraduationCap, Plus, Sparkles, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const RepresentativeDashboard = () => {
   const { user } = useAuth();
@@ -32,9 +33,11 @@ const RepresentativeDashboard = () => {
             {user.department} · {user.aiFocus}
           </p>
         </div>
-        <Button>
-          <Sparkles className="h-4 w-4" />
-          Create new session
+        <Button asChild>
+          <Link to="/workshops/new">
+            <Plus className="h-4 w-4" />
+            Create Workshop
+          </Link>
         </Button>
       </header>
 

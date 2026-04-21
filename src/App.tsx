@@ -16,6 +16,7 @@ import PartnersPage from "./pages/PartnersPage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
 import DashboardPage from "./pages/DashboardPage.tsx";
+import CreateWorkshopPage from "./pages/CreateWorkshopPage.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -40,6 +41,7 @@ const App = () => (
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignupPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/workshops/new" element={<CreateWorkshopPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
