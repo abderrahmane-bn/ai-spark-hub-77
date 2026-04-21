@@ -1,16 +1,23 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Brain, Calendar, Users, BookOpen, Handshake, Menu, X, LayoutDashboard, LogOut, LogIn } from "lucide-react";
+import { Brain, Calendar, Users, BookOpen, Handshake, Menu, X, LogOut, LogIn } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const navItems = [
-  { to: "/", label: "Home", icon: Brain },
+const appNavItems = [
+  { to: "/dashboard", label: "Home", icon: Brain },
   { to: "/workshops", label: "Workshops", icon: Calendar },
   { to: "/representatives", label: "Network", icon: Users },
   { to: "/resources", label: "Resources", icon: BookOpen },
   { to: "/partners", label: "Partners", icon: Handshake },
+];
+
+const landingSections = [
+  { id: "research", label: "Research" },
+  { id: "events", label: "Events" },
+  { id: "directory", label: "Directory" },
+  { id: "about", label: "About" },
 ];
 
 const Navbar = () => {
@@ -32,6 +39,13 @@ const Navbar = () => {
   };
 
   const roleLabel = user?.role === "admin" ? "Admin" : user?.role === "representative" ? "Representative" : "Student";
+  const isLanding = location.pathname === "/" && !user;
+
+  const scrollToSection = (id: string) => {
+    setMobileOpen(false);
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   return (
     <nav
@@ -42,7 +56,7 @@ const Navbar = () => {
       }`}
     >
       <div className="container flex h-16 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5 group">
+        <Link to={user ? "/dashboard" : "/"} className="flex items-center gap-2.5 group">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl gradient-primary shadow-glow transition-transform group-hover:scale-110">
             <Brain className="h-5 w-5 text-primary-foreground" />
           </div>
@@ -57,38 +71,45 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-0.5 rounded-xl bg-muted/60 p-1">
-          {navItems.map((item) => {
-            const active = location.pathname === item.to;
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                className={`flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-all duration-200 ${
-                  active
-                    ? "bg-card text-foreground shadow-card"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
+        {isLanding ? (
+          <div className="hidden md:flex items-center gap-1">
+            {landingSections.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => scrollToSection(s.id)}
+                className="rounded-lg px-3.5 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
               >
-                <item.icon className="h-3.5 w-3.5" />
-                {item.label}
-              </Link>
-            );
-          })}
-        </div>
+                {s.label}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <div className="hidden md:flex items-center gap-0.5 rounded-xl bg-muted/60 p-1">
+            {appNavItems.map((item) => {
+              const active = location.pathname === item.to;
+              return (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className={`flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-sm font-medium transition-all duration-200 ${
+                    active
+                      ? "bg-card text-foreground shadow-card"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  <item.icon className="h-3.5 w-3.5" />
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
         {/* Desktop auth */}
         <div className="hidden md:flex items-center gap-2">
           <ThemeToggle />
           {user ? (
             <>
-              <Link
-                to="/dashboard"
-                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-foreground hover:bg-muted transition"
-              >
-                <LayoutDashboard className="h-4 w-4" />
-                <span className="hidden lg:inline">Dashboard</span>
-              </Link>
               <div className="flex items-center gap-2 rounded-xl border border-border/60 bg-card px-2.5 py-1.5">
                 <div className="h-7 w-7 rounded-lg gradient-primary flex items-center justify-center text-primary-foreground text-xs font-semibold">
                   {user.fullName.charAt(0)}
@@ -111,7 +132,7 @@ const Navbar = () => {
                 </Link>
               </Button>
               <Button asChild size="sm">
-                <Link to="/signup">Sign up</Link>
+                <Link to="/signup">{isLanding ? "Portal Login" : "Sign up"}</Link>
               </Button>
             </>
           )}
@@ -132,35 +153,40 @@ const Navbar = () => {
       {/* Mobile menu */}
       {mobileOpen && (
         <div className="md:hidden glass border-t border-border/50 p-3 space-y-0.5">
-          {navItems.map((item) => {
-            const active = location.pathname === item.to;
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={() => setMobileOpen(false)}
-                className={`flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium transition-all ${
-                  active
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                }`}
-              >
-                <item.icon className="h-4 w-4" />
-                {item.label}
-              </Link>
-            );
-          })}
+          {isLanding
+            ? landingSections.map((s) => (
+                <button
+                  key={s.id}
+                  onClick={() => scrollToSection(s.id)}
+                  className="w-full text-left flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  {s.label}
+                </button>
+              ))
+            : appNavItems.map((item) => {
+                const active = location.pathname === item.to;
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium transition-all ${
+                      active
+                        ? "bg-primary/10 text-primary"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    }`}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {item.label}
+                  </Link>
+                );
+              })}
           <div className="border-t border-border/50 mt-2 pt-2 space-y-0.5">
             {user ? (
               <>
-                <Link
-                  to="/dashboard"
-                  onClick={() => setMobileOpen(false)}
-                  className="flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium text-foreground hover:bg-muted"
-                >
-                  <LayoutDashboard className="h-4 w-4" />
-                  Dashboard ({roleLabel})
-                </Link>
+                <div className="px-4 py-2 text-xs text-muted-foreground">
+                  Signed in as <span className="font-semibold text-foreground">{user.fullName}</span> ({roleLabel})
+                </div>
                 <button
                   onClick={() => {
                     handleLogout();
