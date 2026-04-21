@@ -18,7 +18,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero */}
-      <section className="container pt-12 md:pt-20 pb-16 md:pb-24">
+      <section id="about" className="container pt-12 md:pt-20 pb-16 md:pb-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
             <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-3.5 py-1.5 text-[11px] font-semibold tracking-wider uppercase text-primary mb-7">
