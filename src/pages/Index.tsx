@@ -82,7 +82,7 @@ const Index = () => {
       </section>
 
       {/* Stats band */}
-      <section className="bg-muted/40 border-y border-border/60">
+      <section id="research" className="bg-muted/40 border-y border-border/60">
         <div className="container py-14">
           <div className="grid md:grid-cols-3 gap-5">
             {[
@@ -120,7 +120,7 @@ const Index = () => {
       </section>
 
       {/* Upcoming workshops */}
-      <section className="container py-16 md:py-20">
+      <section id="events" className="container py-16 md:py-20">
         <div className="flex items-end justify-between mb-8 flex-wrap gap-4">
           <div>
             <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground tracking-tight mb-2">
