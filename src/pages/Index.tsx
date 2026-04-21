@@ -230,7 +230,7 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/60 bg-muted/30">
+      <footer id="directory" className="border-t border-border/60 bg-muted/30">
         <div className="container py-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="font-display font-bold text-foreground">AI House</div>
