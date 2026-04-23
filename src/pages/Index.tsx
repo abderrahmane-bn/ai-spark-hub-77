@@ -1,12 +1,36 @@
+import { useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { ArrowRight, Sparkles, Calendar, Brain, Activity, Clock, ExternalLink } from "lucide-react";
 import heroImage from "@/assets/landing-hero.jpg";
 import { workshops } from "@/data/mockData";
 import { useAuth } from "@/lib/auth";
+import Navbar from "@/components/Navbar_chbab";
 
 const Index = () => {
   const { user } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
   if (user) return <Navigate to="/dashboard" replace />;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (cardRef.current) {
+      cardRef.current.style.left = `${x - 115}px`;
+      cardRef.current.style.top = `${y - 40}px`;
+      cardRef.current.style.bottom = "auto";
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (cardRef.current) {
+      cardRef.current.style.left = "";
+      cardRef.current.style.top = "";
+      cardRef.current.style.bottom = "";
+    }
+  };
 
   const upcoming = workshops.filter((w) => w.status === "upcoming").slice(0, 3);
   const featured = upcoming[0];
@@ -17,6 +41,8 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <Navbar />
+
       {/* Hero */}
       <section id="about" className="container pt-12 md:pt-20 pb-16 md:pb-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -52,7 +78,11 @@ const Index = () => {
           </div>
 
           {/* Hero visual */}
-          <div className="relative">
+          <div
+            className="relative pb-8 "
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
             <div className="relative aspect-square rounded-3xl overflow-hidden bg-muted shadow-card-hover">
               <img
                 src={heroImage}
@@ -63,7 +93,11 @@ const Index = () => {
               />
             </div>
             {/* Floating live status card */}
-            <div className="absolute -bottom-6 -left-4 md:-left-8 rounded-2xl bg-card border border-border/60 shadow-card-hover p-4 max-w-[230px]">
+            <div
+              ref={cardRef}
+              style={{ transition: "left 0.1s ease-out, top 0.1s ease-out" }}
+              className="absolute -bottom-6 -left-4 md:-left-8 rounded-2xl bg-card border border-border/60 shadow-card-hover p-4 max-w-[230px] pointer-events-none"
+            >
               <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest text-primary uppercase mb-2">
                 <span className="relative flex h-1.5 w-1.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
