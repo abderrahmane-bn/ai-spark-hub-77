@@ -6,7 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Navbar from "@/components/Navbar";
 import { AuthProvider } from "@/lib/auth";
-import Index from "./pages/Index.js";
+import Index from "./pages/Index";
 import WorkshopsPage from "./pages/WorkshopsPage";
 import SessionDetailsPage from "./pages/SessionDetailsPage";
 import RepresentativesPage from "./pages/RepresentativesPage";
