@@ -48,8 +48,8 @@ const LoginPage = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@univ-blida.dz"
-            />
+              placeholder="you@univ-blida.dz" />
+            
           </div>
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
@@ -59,8 +59,8 @@ const LoginPage = () => {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-            />
+              placeholder="••••••••" />
+            
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Signing in..." : "Sign in"}
@@ -79,8 +79,8 @@ const LoginPage = () => {
           <p>admin@univ-blida.dz / admin123</p>
         </div>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default LoginPage;
